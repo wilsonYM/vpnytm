@@ -1,0 +1,211 @@
+name: WireGuard Client Configuration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0/2 * * *'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install yt-dlp
+      run: |
+        sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+        sudo chmod a+rx /usr/local/bin/yt-dlp
+        
+    - name: Install WireGuard and resolvconf
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wireguard-tools resolvconf
+      shell: bash
+
+    - name: Configure WireGuard
+      run: |
+        echo "[Interface]
+        PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
+        Address = 192.168.4.2/32
+        DNS = 192.168.4.1
+
+        [Peer]
+        PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
+        AllowedIPs = 192.168.4.1/32,192.168.4.2/32,0.0.0.0/0
+        Endpoint = ${{ secrets.WG_ENDPOINT }}" | sudo tee /etc/wireguard/wg0.conf
+      shell: bash
+
+    - name: Start WireGuard
+      run: |
+        sudo wg-quick up wg0
+      shell: bash
+    
+    # - name: Get Public IP
+    #   run: |
+    #     public_ip=$(curl -s https://ifconfig.me)
+    #     echo "Public IP Address: $public_ip"
+    #   shell: bash
+      
+    - name: config
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+
+#######################################YOUTUBE####################################################   
+#鏡新聞
+    - name: Get yt_mnews.m3u8
+      run: |
+        touch ./yt_mnews.m3u8
+        sudo cat >./yt_mnews.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@mnews-tw/live)
+        EOL
+#寰宇新聞台1
+    - name: Get yt_globalnewstw1.m3u8
+      run: |
+        touch ./yt_globalnewstw1.m3u8
+        sudo cat >./yt_globalnewstw1.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@globalnewstw/live)
+        EOL
+#寰宇新聞台2
+    - name: Get yt_globalnewstw2.m3u8
+      run: |
+        touch ./yt_globalnewstw2.m3u8
+        sudo cat >./yt_globalnewstw2.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=UcTIv4ZaE5Y)
+        EOL
+#東森財經新聞
+    - name: Get yt_57EBC.m3u8
+      run: |
+        touch ./yt_57EBC.m3u8
+        sudo cat >./yt_57EBC.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@57ETFN/live)
+        EOL
+#三立新聞台
+    - name: Get yt_setnews.m3u8
+      run: |
+        touch ./yt_setnews.m3u8
+        sudo cat >./yt_setnews.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@setnews/live)
+        EOL
+#三立inews
+    - name: Get yt_setinews.m3u8
+      run: |
+        touch ./yt_setinews.m3u8
+        sudo cat >./yt_setinews.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@setinews/live)
+        EOL
+#華視新聞 CH52
+    - name: Get yt_CtsTw.m3u8
+      run: |
+        touch ./yt_CtsTw.m3u8
+        sudo cat >./yt_CtsTw.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@CtsTw/live)
+        EOL
+#民視新聞
+    - name: Get yt_FTV_News.m3u8
+      run: |
+        touch ./yt_FTV_News.m3u8
+        sudo cat >./yt_FTV_News.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@FTV_News/live)
+        EOL
+#台視新聞
+    - name: Get yt_TTV_NEWS.m3u8
+      run: |
+        touch ./yt_TTV_NEWS.m3u8
+        sudo cat >./yt_TTV_NEWS.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@TTV_NEWS/live)
+        EOL
+#公視
+    - name: Get yt_ptslivestream.m3u8
+      run: |
+        touch ./yt_ptslivestream.m3u8
+        sudo cat >./yt_ptslivestream.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@ptslivestream/live)
+        EOL
+#我們這一家
+    - name: Get yt_Our_family.m3u8
+      run: |
+        touch ./yt_Our_family.m3u8
+        sudo cat >./yt_Our_family.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=UK81GCw1KE8)
+        EOL
+#飢餓遊戲
+    - name: Get yt_HungerGames.m3u8
+      run: |
+        touch ./yt_HungerGames.m3u8
+        sudo cat >./yt_HungerGames.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@HungerGames123/live)
+        EOL
+#歡喜玉玲龍
+    - name: Get yt_Yulinglong.m3u8
+      run: |
+        touch ./yt_Yulinglong.m3u8
+        sudo cat >./yt_Yulinglong.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@ctvent_classic/live)
+        EOL
+#天才衝衝衝
+    - name: Get yt_genius_rush_rush.m3u8
+      run: |
+        touch ./yt_genius_rush_rush.m3u8
+        sudo cat >./yt_genius_rush_rush.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/@CTSSHOW/live)
+        EOL
+
+
+########################################YOUTUBE#################################################### 
+
+
+
+    - name: git add
+      run: |
+        git add -A
+        ls -la
+
+    - name: commit & push
+      run: |
+        git commit -m "links are updated"
+        git push
