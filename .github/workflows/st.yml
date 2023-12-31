@@ -1,0 +1,46 @@
+name: WireGuard Client Configuration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0/2 * * *'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    #streamlink
+    - name: Install PyExecJS
+      run: |
+        pip install PyExecJS
+    - name: Install streamlink
+      run: |
+        pip install streamlink
+    - name: config
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+####
+#2024_kh
+    - name: Get 2024_KH.m3u8
+      run: |
+        touch ./2024_KH.m3u8
+        sudo cat >./2024_KH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(streamlink --default-stream best --url https://www.facebook.com/bravo.Kaohsiung/videos/726447216106647/)
+        EOL
+####
+    - name: git add
+      run: |
+        git add -A
+        ls -la
+
+    - name: commit & push
+      run: |
+        git commit -m "links are updated"
+        git push
