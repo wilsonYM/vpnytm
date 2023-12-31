@@ -1,4 +1,4 @@
-name: WireGuard Client Configuration
+name: st
 
 on:
   workflow_dispatch:
