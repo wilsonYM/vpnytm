@@ -1,0 +1,156 @@
+name: WireGuard Client Configuration
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0/2 * * *'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Install yt-dlp
+      run: |
+        sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+        sudo chmod a+rx /usr/local/bin/yt-dlp
+        
+    - name: Install WireGuard and resolvconf
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wireguard-tools resolvconf
+      shell: bash
+
+    - name: Configure WireGuard
+      run: |
+        echo "[Interface]
+        PrivateKey = ${{ secrets.WG_PRIVATE_KEY }}
+        Address = 192.168.4.2/32
+        DNS = 192.168.4.1
+
+        [Peer]
+        PublicKey = ${{ secrets.WG_PUBLIC_KEY }}
+        AllowedIPs = 192.168.4.1/32,192.168.4.2/32,0.0.0.0/0
+        Endpoint = ${{ secrets.WG_ENDPOINT }}" | sudo tee /etc/wireguard/wg0.conf
+      shell: bash
+
+    - name: Start WireGuard
+      run: |
+        sudo wg-quick up wg0
+      shell: bash
+    
+    # - name: Get Public IP
+    #   run: |
+    #     public_ip=$(curl -s https://ifconfig.me)
+    #     echo "Public IP Address: $public_ip"
+    #   shell: bash
+      
+    - name: config
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+
+#######################################YOUTUBE####################################################   
+#台北跨年
+    - name: Get 2024_TP.m3u8
+      run: |
+        touch ./2024_TP.m3u8
+        sudo cat >./2024_TP.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=H9FvfP-J_DA)
+        EOL
+#新竹跨年
+    - name: Get 2024_ST.m3u8
+      run: |
+        touch ./2024_ST.m3u8
+        sudo cat >./2024_ST.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=gilXV7RhdsY)
+        EOL
+#台東跨年
+    - name: Get 2024_TD.m3u8
+      run: |
+        touch ./2024_TD.m3u8
+        sudo cat >./2024_TD.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=WBhMgGJ42RM)
+        EOL
+#花蓮跨年
+    - name: Get 2024_CH.m3u8
+      run: |
+        touch ./2024_CH.m3u8
+        sudo cat >./2024_CH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=zftI73vw6Ck)
+        EOL
+#台中跨年
+    - name: Get 2024_TH.m3u8
+      run: |
+        touch ./2024_TH.m3u8
+        sudo cat >./2024_TH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=WAuMy6u8dPE)
+        EOL
+#麗寶跨年
+    - name: Get 2024_TH2.m3u8
+      run: |
+        touch ./2024_TH2.m3u8
+        sudo cat >./2024_TH2.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=8RMRLohHYGI)
+        EOL
+#台南跨年
+    - name: Get 2024_TN.m3u8
+      run: |
+        touch ./2024_TN.m3u8
+        sudo cat >./2024_TN.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=ym0nKY0Cdl4)
+        EOL
+#高雄跨年
+    - name: Get 2024_KH.m3u8
+      run: |
+        touch ./2024_KH.m3u8
+        sudo cat >./2024_KH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=a07D7vhR9Og)
+        EOL"
+
+
+
+
+  
+
+
+########################################YOUTUBE#################################################### 
+
+
+
+    - name: git add
+      run: |
+        git add -A
+        ls -la
+
+    - name: commit & push
+      run: |
+        git commit -m "links are updated"
+        git push
