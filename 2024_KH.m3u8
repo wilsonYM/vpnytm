@@ -1,4 +1,5 @@
 #EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
-error: No plugin can handle URL: https://fb.watch/pg_zHur7Ej/
+[cli][info] Found matching plugin facebook for URL https://www.facebook.com/bravo.Kaohsiung/videos/726447216106647/
+error: No playable streams found on this URL: https://www.facebook.com/bravo.Kaohsiung/videos/726447216106647/
