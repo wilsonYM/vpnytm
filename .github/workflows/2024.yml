@@ -1,4 +1,4 @@
-name: WireGuard Client Configuration
+name: 2024
 
 on:
   workflow_dispatch:
