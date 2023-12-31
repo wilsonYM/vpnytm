@@ -59,6 +59,16 @@ jobs:
       run: |
         git config --global user.email "action@github.com"
         git config --global user.name "GitHub Action"
+####
+#2024_kh
+    - name: Get 2024_KH.m3u8
+      run: |
+        touch ./2024_KH.m3u8
+        sudo cat >./2024_KH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(streamlink --default-stream best --stream-url https://fb.watch/pg_zHur7Ej/)
 
 #######################################YOUTUBE####################################################   
 #鏡新聞
@@ -89,7 +99,7 @@ jobs:
         #EXTM3U
         #EXT-X-VERSION:3
         #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
-        $(yt-dlp -g https://www.youtube.com/watch?v=yAPM0HwXKMg)
+        $(yt-dlp -g https://www.youtube.com/watch?v=UcTIv4ZaE5Y)
         EOL
 #東森新聞
     - name: Get yt_51EBC.m3u8
@@ -221,6 +231,80 @@ jobs:
         #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
         $(yt-dlp -g https://www.youtube.com/@CTSSHOW/live)
         EOL
+#台北跨年
+    - name: Get 2024_TP.m3u8
+      run: |
+        touch ./2024_TP.m3u8
+        sudo cat >./2024_TP.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=H9FvfP-J_DA)
+        EOL
+#新竹跨年
+    - name: Get 2024_ST.m3u8
+      run: |
+        touch ./2024_ST.m3u8
+        sudo cat >./2024_ST.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=gilXV7RhdsY)
+        EOL
+#台東跨年
+    - name: Get 2024_TD.m3u8
+      run: |
+        touch ./2024_TD.m3u8
+        sudo cat >./2024_TD.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=WBhMgGJ42RM)
+        EOL
+#花蓮跨年
+    - name: Get 2024_CH.m3u8
+      run: |
+        touch ./2024_CH.m3u8
+        sudo cat >./2024_CH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=zftI73vw6Ck)
+        EOL
+#台中跨年
+    - name: Get 2024_TH.m3u8
+      run: |
+        touch ./2024_TH.m3u8
+        sudo cat >./2024_TH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=WAuMy6u8dPE)
+        EOL
+#麗寶跨年
+    - name: Get 2024_TH2.m3u8
+      run: |
+        touch ./2024_TH2.m3u8
+        sudo cat >./2024_TH2.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=8RMRLohHYGI)
+        EOL
+#台南跨年
+    - name: Get 2024_TN.m3u8
+      run: |
+        touch ./2024_TN.m3u8
+        sudo cat >./2024_TN.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=ym0nKY0Cdl4)
+        EOL
+
+
+
+  
 
 
 ########################################YOUTUBE#################################################### 
