@@ -32,7 +32,7 @@ jobs:
         #EXTM3U
         #EXT-X-VERSION:3
         #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
-        $(streamlink --default-stream best --url https://www.facebook.com/bravo.Kaohsiung/videos/726447216106647/)
+        $(streamlink --default-stream best --stream-url https://www.facebook.com/bravo.Kaohsiung/videos/726447216106647/)
         EOL
 ####
     - name: git add
