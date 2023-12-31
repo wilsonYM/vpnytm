@@ -154,7 +154,27 @@ jobs:
         #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
         $(yt-dlp -g https://www.youtube.com/watch?v=jXCpeeYkTK8)
         EOL"
-    
+#湖南衛視
+    - name: Get 2024_CH.m3u8
+      run: |
+        touch ./2024_CH.m3u8
+        sudo cat >./2024_CH.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=SsNX4vRjCXQ)
+        EOL"
+#浙江卫视
+    - name: Get 2024_ZJ.m3u8
+      run: |
+        touch ./2024_ZJ.m3u8
+        sudo cat >./2024_ZJ.m3u8 <<EOL
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2560000
+        $(yt-dlp -g https://www.youtube.com/watch?v=xMwpVz28YF8)
+        EOL"
+        
 
 
 
